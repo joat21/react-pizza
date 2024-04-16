@@ -35,6 +35,7 @@ const Sort = () => {
           <ul>
             {sortTypes.map((sortType, index) => (
               <li
+                key={index}
                 onClick={() => onSelectSort(index)}
                 className={classNames({ active: activeSortIndex === index })}>
                 {sortType}
