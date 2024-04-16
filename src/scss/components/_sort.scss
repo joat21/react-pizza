@@ -8,6 +8,12 @@
 
     svg {
       margin-right: 8px;
+      rotate: 180deg;
+      transition: rotate .3s ease-in-out;
+
+      &.opened {
+        rotate: 0deg;
+      }
     }
 
     b {
@@ -18,6 +24,7 @@
       color: $orange;
       border-bottom: 1px dashed $orange;
       cursor: pointer;
+      user-select: none;
     }
   }
 
