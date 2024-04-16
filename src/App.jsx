@@ -1,10 +1,20 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import Header from './components/Header';
 import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
+
 import './scss/app.scss';
 
 function App() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://1fa97bb2e797534b.mokky.dev/pizzas').then((res) => setItems(res.data));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -14,14 +24,11 @@ function App() {
             <Categories />
             <Sort />
           </div>
-          <h2 className="content__title">Все пиццы</h2>
+          <h2 className="content__title">Вся пицца</h2>
           <div className="content__items">
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
+            {items.map((item) => (
+              <PizzaBlock key={item.id} {...item} />
+            ))}
           </div>
         </div>
       </div>
