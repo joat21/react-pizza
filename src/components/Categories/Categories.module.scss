@@ -2,18 +2,30 @@
 @import '../../scss/libs/normalize';
 
 .categories {
+
+  @media(max-width: 1300px) {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   ul {
     display: flex;
+    column-gap: 10px;
 
     li {
       background-color: #f9f9f9;
       padding: 13px 30px;
       border-radius: 30px;
-      margin-right: 10px;
+      // margin-right: 10px;
       font-weight: bold;
       cursor: pointer;
       transition: background-color 0.1s ease-in-out;
       @include noselect;
+
+      @media(max-width: 480px) {
+        padding: 8px 20px;
+      }
 
       &:hover {
         background-color: darken(#f9f9f9, 2%);
@@ -27,6 +39,10 @@
         background-color: #282828;
         color: #fff;
       }
+    }
+
+    @media(max-width: 1300px) {
+      overflow-x: scroll;
     }
   }
 }

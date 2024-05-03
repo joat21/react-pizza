@@ -5,11 +5,11 @@ import styles from './Header.module.scss';
 const Header = () => {
   return (
     <div className={styles.header}>
-      <div className={styles.container}>
+      <div className={`container ${styles.container}`}>
         <Link to="/">
           <div className={styles.logo}>
             <img width="38" src={pizzaLogo} alt="Pizza logo" />
-            <div>
+            <div className={styles.text}>
               <h1>React Pizza</h1>
               <p>самая вкусная пицца во вселенной</p>
             </div>
