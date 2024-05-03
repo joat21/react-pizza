@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import classNames from 'classnames';
+import styles from './Sort.module.scss';
 
 const Sort = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,8 +14,8 @@ const Sort = () => {
   };
 
   return (
-    <div className="sort">
-      <div className="sort__label">
+    <div className={styles.sort}>
+      <div className={styles.label}>
         <svg
           className={classNames({ opened: isOpen })}
           width="10"
@@ -31,13 +32,13 @@ const Sort = () => {
         <span onClick={() => setIsOpen(!isOpen)}>{sortTypes[activeSortIndex]}</span>
       </div>
       {isOpen && (
-        <div className="sort__popup">
+        <div className={styles.popup}>
           <ul>
             {sortTypes.map((sortType, index) => (
               <li
                 key={index}
                 onClick={() => onSelectSort(index)}
-                className={classNames({ active: activeSortIndex === index })}>
+                className={classNames({ [styles.active]: activeSortIndex === index })}>
                 {sortType}
               </li>
             ))}
