@@ -2,8 +2,8 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './Categories.module.scss';
 
-const Categories = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const Categories = (props) => {
+  const { activeIndex, setActiveIndex } = props;
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (

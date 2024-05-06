@@ -2,14 +2,19 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './Sort.module.scss';
 
-const Sort = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSortIndex, setActiveSortIndex] = useState(0);
+const Sort = (props) => {
+  const { activeSort, setActiveSort } = props;
 
-  const sortTypes = ['популярности', 'цене', 'алфавиту'];
+  const [isOpen, setIsOpen] = useState(false);
+  const sorts = [
+    { name: 'популярные', sortBy: '-rating' },
+    { name: 'цена ↑', sortBy: 'price' },
+    { name: 'цена ↓', sortBy: '-price' },
+    { name: 'по алфавиту', sortBy: 'title' }
+  ];
 
   const onSelectSort = (index) => {
-    setActiveSortIndex(index);
+    setActiveSort(index);
     setIsOpen(false);
   };
 
@@ -28,18 +33,18 @@ const Sort = () => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{sortTypes[activeSortIndex]}</span>
+        <b>Сортировка:</b>
+        <span onClick={() => setIsOpen(!isOpen)}>{activeSort.name}</span>
       </div>
       {isOpen && (
         <div className={styles.popup}>
           <ul>
-            {sortTypes.map((sortType, index) => (
+            {sorts.map((sort, index) => (
               <li
                 key={index}
-                onClick={() => onSelectSort(index)}
-                className={classNames({ [styles.active]: activeSortIndex === index })}>
-                {sortType}
+                onClick={() => onSelectSort(sort)}
+                className={classNames({ [styles.active]: activeSort.sortBy === sort.sortBy })}>
+                {sort.name}
               </li>
             ))}
           </ul>
