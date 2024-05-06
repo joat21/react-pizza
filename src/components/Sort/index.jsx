@@ -10,7 +10,7 @@ const Sort = (props) => {
     { name: 'популярные', sortBy: '-rating' },
     { name: 'цена ↑', sortBy: 'price' },
     { name: 'цена ↓', sortBy: '-price' },
-    { name: 'по алфавиту', sortBy: 'title' }
+    { name: 'по алфавиту', sortBy: 'title' },
   ];
 
   const onSelectSort = (index) => {

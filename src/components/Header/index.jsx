@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import pizzaLogo from '../../assets/img/pizza-logo.svg';
+import Search from '../Search';
 import styles from './Header.module.scss';
 
-const Header = () => {
+const Header = (props) => {
+  const { searchValue, setSearchValue } = props;
   return (
     <div className={styles.header}>
       <div className={`container ${styles.container}`}>
@@ -15,6 +17,7 @@ const Header = () => {
             </div>
           </div>
         </Link>
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <div>
           <Link to="/cart" className={`button ${styles.btn}`}>
             <span>520 ₽</span>
