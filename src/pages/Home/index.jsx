@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import Categories from '../../components/Categories';
@@ -11,8 +12,8 @@ import styles from './Home.module.scss';
 const Home = ({ searchValue }) => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeCategoryId, setActiveCategoryId] = useState(0);
-  const [activeSort, setActiveSort] = useState({ name: 'популярные', sortBy: '-rating' });
+  const activeCategoryId = useSelector((state) => state.filter.categoryId);
+  const activeSort = useSelector((state) => state.filter.sort);
 
   useEffect(() => {
     const category = activeCategoryId > 0 ? `&category=${activeCategoryId}` : '';
@@ -35,8 +36,8 @@ const Home = ({ searchValue }) => {
   return (
     <div className="container">
       <div className={styles.top}>
-        <Categories activeIndex={activeCategoryId} setActiveIndex={setActiveCategoryId} />
-        <Sort activeSort={activeSort} setActiveSort={setActiveSort} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className={styles.title}>Вся пицца</h2>
       <div className={styles.items}>

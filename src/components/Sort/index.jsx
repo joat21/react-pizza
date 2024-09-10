@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSort } from '../../redux/slices/filterSlice';
 import styles from './Sort.module.scss';
 
 const Sort = (props) => {
-  const { activeSort, setActiveSort } = props;
-
+  const dispatch = useDispatch();
+  const activeSort = useSelector((state) => state.filter.sort);
+  console.log(activeSort);
   const [isOpen, setIsOpen] = useState(false);
   const sorts = [
     { name: 'популярные', sortBy: '-rating' },
@@ -13,8 +16,8 @@ const Sort = (props) => {
     { name: 'по алфавиту', sortBy: 'title' },
   ];
 
-  const onSelectSort = (index) => {
-    setActiveSort(index);
+  const onSelectSort = (sort) => {
+    dispatch(setSort(sort));
     setIsOpen(false);
   };
 

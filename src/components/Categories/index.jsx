@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../../redux/slices/filterSlice';
 import classNames from 'classnames';
 import styles from './Categories.module.scss';
 
-const Categories = (props) => {
-  const { activeIndex, setActiveIndex } = props;
+const Categories = () => {
+  const dispatch = useDispatch();
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-
+  const activeIndex = useSelector((state) => state.filter.categoryId);
   return (
     <div className={styles.categories}>
       <ul>
@@ -13,7 +15,7 @@ const Categories = (props) => {
           <li
             key={index}
             className={classNames({ [styles.active]: activeIndex === index })}
-            onClick={() => setActiveIndex(index)}>
+            onClick={() => dispatch(setCategoryId(index))}>
             {category}
           </li>
         ))}
