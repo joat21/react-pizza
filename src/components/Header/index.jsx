@@ -3,8 +3,7 @@ import pizzaLogo from '../../assets/img/pizza-logo.svg';
 import Search from '../Search';
 import styles from './Header.module.scss';
 
-const Header = (props) => {
-  const { searchValue, setSearchValue } = props;
+const Header = () => {
   return (
     <div className={styles.header}>
       <div className={`container ${styles.container}`}>
@@ -17,7 +16,7 @@ const Header = (props) => {
             </div>
           </div>
         </Link>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        <Search />
         <div>
           <Link to="/cart" className={`button ${styles.btn}`}>
             <span>520 ₽</span>
