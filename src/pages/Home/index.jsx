@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { SHA1 } from 'crypto-js';
 
 import Categories from '../../components/Categories';
 import Sort from '../../components/Sort';

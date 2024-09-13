@@ -1,14 +1,44 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../../redux/slices/cartSlice';
+import { SHA1 } from 'crypto-js';
 import classNames from 'classnames';
+import axios from 'axios';
 
 import styles from './PizzaBlock.module.scss';
 
 const PizzaBlock = (props) => {
+  const dispatch = useDispatch();
   const { title, price, imageUrl, sizes, types } = props;
   const typeNames = ['тонкое', 'традиционное'];
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
+
+  const id = SHA1(title + typeNames[activeType] + sizes[activeSize]).toString();
+  const cartItem = useSelector((state) => state.cart.items.find((item) => item.id === id));
+  const itemCount = cartItem ? cartItem.count : 0;
+
+  const addToCart = () => {
+    dispatch(
+      addItem({
+        id,
+        title,
+        price,
+        imageUrl,
+        type: typeNames[activeType],
+        size: sizes[activeSize],
+      }),
+    );
+    // axios.post('https://1fa97bb2e797534b.mokky.dev/cart', {
+    //   id: 234, //SHA256(title + typeNames[activeType] + sizes[activeSize]),
+    //   title,
+    //   price,
+    //   imageUrl,
+    //   type: typeNames[activeType],
+    //   size: sizes[activeSize],
+    // });
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -38,7 +68,7 @@ const PizzaBlock = (props) => {
               ))}
             </ul>
           </div>
-          <div className={styles.bottom}>
+          <div onClick={addToCart} className={styles.bottom}>
             <div className={styles.price}>от {price} ₽</div>
             <div className="button button--outline button--add">
               <svg
@@ -53,7 +83,7 @@ const PizzaBlock = (props) => {
                 />
               </svg>
               <span>Добавить</span>
-              <i>0</i>
+              {itemCount > 0 && <i>{itemCount}</i>}
             </div>
           </div>
         </div>

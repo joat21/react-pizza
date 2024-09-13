@@ -7,7 +7,7 @@ import styles from './Sort.module.scss';
 const Sort = (props) => {
   const dispatch = useDispatch();
   const activeSort = useSelector((state) => state.filter.sort);
-  console.log(activeSort);
+
   const [isOpen, setIsOpen] = useState(false);
   const sorts = [
     { name: 'популярные', sortBy: '-rating' },
