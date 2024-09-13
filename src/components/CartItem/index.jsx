@@ -30,7 +30,7 @@ const CartItem = (props) => {
         </div>
         <div className={styles.count}>
           <div
-            onClick={() => dispatch(decrementItemCount({ id }))}
+            onClick={() => dispatch(decrementItemCount(id))}
             className={`button button--outline button--circle ${styles.minus}`}>
             <svg
               width="10"
@@ -72,7 +72,7 @@ const CartItem = (props) => {
         <div className={styles.price}>
           <b>{price * count} ₽</b>
         </div>
-        <div onClick={() => dispatch(removeItem({ id }))} className={styles.remove}>
+        <div onClick={() => dispatch(removeItem(id))} className={styles.remove}>
           <div className="button button--outline button--circle">
             <svg
               width="10"

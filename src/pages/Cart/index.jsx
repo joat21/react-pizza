@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { clear } from '../../redux/slices/cartSlice';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clear } from "../../redux/slices/cartSlice";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-import CartItem from '../../components/CartItem';
-import styles from './Cart.module.scss';
+import CartItem from "../../components/CartItem";
+import styles from "./Cart.module.scss";
+import CartEmpty from "../../components/CartEmpty";
 
 const Cart = () => {
-  const cart = useSelector((state) => state.cart);
+  const { items, totalCount, totalPrice } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  // const [items, setItems] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get('https://1fa97bb2e797534b.mokky.dev/cart').then((res) => setItems(res.data));
-  // }, []);
+  if (!totalCount) {
+    return <CartEmpty />;
+  }
 
   return (
     <div className={`container ${styles.container}`}>
@@ -26,7 +26,8 @@ const Cart = () => {
               height="18"
               viewBox="0 0 18 18"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667 15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695 13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z"
                 stroke="white"
@@ -57,7 +58,8 @@ const Cart = () => {
               height="20"
               viewBox="0 0 20 20"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M2.5 5H4.16667H17.5"
                 stroke="#B6B6B6"
@@ -91,27 +93,31 @@ const Cart = () => {
           </div>
         </div>
         <div className={styles.items}>
-          {cart.items.map((item) => (
+          {items.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
         </div>
         <div className={styles.bottom}>
           <div className={styles.details}>
             <span>
-              Всего пиццы: <b>{cart.totalCount} шт.</b>
+              Всего пиццы: <b>{totalCount} шт.</b>
             </span>
             <span>
-              Сумма заказа: <b>{cart.totalPrice} ₽</b>
+              Сумма заказа: <b>{totalPrice} ₽</b>
             </span>
           </div>
           <div className={styles.buttons}>
-            <Link to="/" className={`button button--outline button--add ${styles['go-back-btn']}`}>
+            <Link
+              to="/"
+              className={`button button--outline button--add ${styles["go-back-btn"]}`}
+            >
               <svg
                 width="8"
                 height="14"
                 viewBox="0 0 8 14"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M7 13L1 6.93015L6.86175 1"
                   stroke="#D3D3D3"
@@ -123,7 +129,7 @@ const Cart = () => {
 
               <span>Вернуться назад</span>
             </Link>
-            <div className={`button ${styles['pay-btn']}`}>
+            <div className={`button ${styles["pay-btn"]}`}>
               <span>Оплатить сейчас</span>
             </div>
           </div>

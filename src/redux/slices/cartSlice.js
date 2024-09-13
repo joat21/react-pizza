@@ -24,19 +24,19 @@ export const cartSlice = createSlice({
     },
 
     removeItem(state, action) {
-      const item = state.items.find((item) => item.id === action.payload.id);
+      const item = state.items.find((item) => item.id === action.payload);
 
       state.totalCount -= item.count;
       state.totalPrice -= item.count * item.price;
 
-      state.items = state.items.filter((item) => item.id !== action.payload.id);
+      state.items = state.items.filter((item) => item.id !== action.payload);
     },
 
     decrementItemCount(state, action) {
-      const item = state.items.find((item) => item.id === action.payload.id);
+      const item = state.items.find((item) => item.id === action.payload);
 
       if (item.count === 1) {
-        state.items = state.items.filter((item) => item.id !== action.payload.id);
+        state.items = state.items.filter((item) => item.id !== action.payload);
       } else {
         item.count -= 1;
       }
