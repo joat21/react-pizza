@@ -1,38 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { SHA1 } from 'crypto-js';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { SHA1 } from "crypto-js";
+import axios from "axios";
 
-import Categories from '../../components/Categories';
-import Sort from '../../components/Sort';
-import PizzaBlock from '../../components/PizzaBlock';
-import Skeleton from '../../components/PizzaBlock/Skeleton';
+import { fetchItems } from "../../redux/slices/pizzaSlice";
 
-import styles from './Home.module.scss';
+import Categories from "../../components/Categories";
+import Sort from "../../components/Sort";
+import PizzaBlock from "../../components/PizzaBlock";
+import Skeleton from "../../components/PizzaBlock/Skeleton";
+import ErrorBlock from "../../components/ErrorBlock";
+
+import styles from "./Home.module.scss";
 
 const Home = ({ searchValue }) => {
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
   const activeCategoryId = useSelector((state) => state.filter.categoryId);
   const activeSort = useSelector((state) => state.filter.sort);
+  const { items, status } = useSelector((state) => state.pizza);
 
   useEffect(() => {
-    const category = activeCategoryId > 0 ? `&category=${activeCategoryId}` : '';
-    const search = searchValue ? `&title=*${searchValue}` : '';
-    setIsLoading(true);
-    axios
-      .get(
-        `https://1fa97bb2e797534b.mokky.dev/pizzas?sortBy=${activeSort.sortBy}${category}${search}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    const category =
+      activeCategoryId > 0 ? `&category=${activeCategoryId}` : "";
+    const search = searchValue ? `&title=*${searchValue}` : "";
+
+    dispatch(fetchItems({ sortBy: activeSort.sortBy, category, search }));
   }, [activeSort, activeCategoryId, searchValue]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const skeletons = [...new Array(6)].map((_, index) => (
+    <Skeleton key={index} />
+  ));
+  const pizza = items.map((item) => <PizzaBlock key={item.id} {...item} />);
 
   return (
     <div className="container">
@@ -41,11 +43,13 @@ const Home = ({ searchValue }) => {
         <Sort />
       </div>
       <h2 className={styles.title}>Вся пицца</h2>
-      <div className={styles.items}>
-        {isLoading
-          ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-          : items.map((item) => <PizzaBlock key={item.id} {...item} />)}
-      </div>
+      {status === "error" ? (
+        <ErrorBlock />
+      ) : (
+        <div className={styles.items}>
+          {status === "pending" ? skeletons : pizza}
+        </div>
+      )}
     </div>
   );
 };

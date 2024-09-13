@@ -1,12 +1,18 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItem, removeItem, decrementItemCount } from '../../redux/slices/cartSlice';
-import styles from './CartItem.module.scss';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  removeItem,
+  decrementItemCount,
+} from "../../redux/slices/cartSlice";
+import styles from "./CartItem.module.scss";
 
 const CartItem = (props) => {
   const { id, title, price, imageUrl, size, type, count } = props;
   const dispatch = useDispatch();
-  const item = useSelector((state) => state.cart.items.find((item) => item.id === id));
+  const item = useSelector((state) =>
+    state.cart.items.find((item) => item.id === id)
+  );
 
   const incrementCount = () => {
     dispatch(addItem({ id, price }));
@@ -16,11 +22,7 @@ const CartItem = (props) => {
     <div>
       <div className={styles.item}>
         <div className={styles.img}>
-          <img
-            // className="pizza-block__image"
-            src={imageUrl}
-            alt="Pizza"
-          />
+          <img src={imageUrl} alt="Pizza" />
         </div>
         <div className={styles.info}>
           <h3>{title}</h3>
@@ -31,13 +33,15 @@ const CartItem = (props) => {
         <div className={styles.count}>
           <div
             onClick={() => dispatch(decrementItemCount(id))}
-            className={`button button--outline button--circle ${styles.minus}`}>
+            className={`button button--outline button--circle ${styles.minus}`}
+          >
             <svg
               width="10"
               height="10"
               viewBox="0 0 10 10"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
                 fill="#EB5A1E"
@@ -51,13 +55,15 @@ const CartItem = (props) => {
           <b>{item.count}</b>
           <div
             onClick={incrementCount}
-            className={`button button--outline button--circle ${styles.plus}`}>
+            className={`button button--outline button--circle ${styles.plus}`}
+          >
             <svg
               width="10"
               height="10"
               viewBox="0 0 10 10"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
                 fill="#EB5A1E"
@@ -79,7 +85,8 @@ const CartItem = (props) => {
               height="10"
               viewBox="0 0 10 10"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
                 fill="#EB5A1E"

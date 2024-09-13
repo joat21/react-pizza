@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clear } from "../../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
+import { clear } from "../../redux/slices/cartSlice";
 
 import CartItem from "../../components/CartItem";
 import styles from "./Cart.module.scss";
