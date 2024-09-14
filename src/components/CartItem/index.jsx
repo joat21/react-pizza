@@ -4,15 +4,14 @@ import {
   addItem,
   removeItem,
   decrementItemCount,
+  selectCartItemById,
 } from "../../redux/slices/cartSlice";
 import styles from "./CartItem.module.scss";
 
 const CartItem = (props) => {
   const { id, title, price, imageUrl, size, type, count } = props;
   const dispatch = useDispatch();
-  const item = useSelector((state) =>
-    state.cart.items.find((item) => item.id === id)
-  );
+  const item = useSelector(selectCartItemById(id));
 
   const incrementCount = () => {
     dispatch(addItem({ id, price }));

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SHA1 } from "crypto-js";
-import axios from "axios";
 
 import { fetchItems } from "../../redux/slices/pizzaSlice";
+import { selectFilter } from "../../redux/slices/filterSlice";
 
 import Categories from "../../components/Categories";
 import Sort from "../../components/Sort";
@@ -13,19 +12,17 @@ import ErrorBlock from "../../components/ErrorBlock";
 
 import styles from "./Home.module.scss";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
   const dispatch = useDispatch();
-  const activeCategoryId = useSelector((state) => state.filter.categoryId);
-  const activeSort = useSelector((state) => state.filter.sort);
+  const { categoryId, sort, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector((state) => state.pizza);
 
   useEffect(() => {
-    const category =
-      activeCategoryId > 0 ? `&category=${activeCategoryId}` : "";
+    const category = categoryId > 0 ? `&category=${categoryId}` : "";
     const search = searchValue ? `&title=*${searchValue}` : "";
 
-    dispatch(fetchItems({ sortBy: activeSort.sortBy, category, search }));
-  }, [activeSort, activeCategoryId, searchValue]);
+    dispatch(fetchItems({ sortBy: sort.sortBy, category, search }));
+  }, [sort, categoryId, searchValue]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

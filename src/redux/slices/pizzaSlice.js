@@ -2,12 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchItems = createAsyncThunk(
-  "pizza/fetchItems",
-  async (params) => {
+  "pizza/fetchItemsStatus",
+  async (params, thunkAPI) => {
     const { sortBy, category, search } = params;
     const { data } = await axios.get(
       `https://1fa97bb2e797534b.mokky.dev/pizzas?sortBy=${sortBy}${category}${search}`
     );
+
+    if (data.length === 0) {
+      return thunkAPI.rejectWithValue("ItemsNotFound");
+    }
+
     return data;
   }
 );

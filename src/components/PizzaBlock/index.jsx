@@ -4,7 +4,7 @@ import { SHA1 } from "crypto-js";
 import classNames from "classnames";
 import axios from "axios";
 
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 
 import styles from "./PizzaBlock.module.scss";
 
@@ -17,9 +17,7 @@ const PizzaBlock = (props) => {
   const [activeSize, setActiveSize] = useState(0);
 
   const id = SHA1(title + typeNames[activeType] + sizes[activeSize]).toString();
-  const cartItem = useSelector((state) =>
-    state.cart.items.find((item) => item.id === id)
-  );
+  const cartItem = useSelector(selectCartItemById(id));
   const itemCount = cartItem ? cartItem.count : 0;
 
   const addToCart = () => {
