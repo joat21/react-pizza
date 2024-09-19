@@ -16,6 +16,12 @@ const Cart: FC = () => {
   );
   const dispatch = useDispatch();
 
+  const onClickClear = () => {
+    if (confirm('Вы уверены, что хотите очистить корзину?')) {
+      dispatch(clear());
+    }
+  };
+
   if (!totalCount) {
     return <CartEmpty />;
   }
@@ -56,7 +62,7 @@ const Cart: FC = () => {
             </svg>
             Корзина
           </h2>
-          <div onClick={() => dispatch(clear())} className={styles.clear}>
+          <div onClick={onClickClear} className={styles.clear}>
             <svg
               width='20'
               height='20'

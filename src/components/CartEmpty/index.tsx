@@ -8,9 +8,7 @@ const CartEmpty: FC = () => {
     <div>
       <div className={`container ${styles.container}`}>
         <div className={styles.empty}>
-          <h2>
-            Корзина пустая <span>😕</span>
-          </h2>
+          <h2>Корзина пустая</h2>
           <p>
             Вы еще не выбрали ни одного товара.
             <br />

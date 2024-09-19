@@ -14,8 +14,18 @@ const CartItem: FC<CartItemType> = (props) => {
   const dispatch = useDispatch();
   const item = useSelector(selectCartItemById(id));
 
-  const incrementCount = () => {
+  const onClickPlus = () => {
     dispatch(addItem({ id, price } as CartItemType));
+  };
+
+  const onClickMinus = () => {
+    dispatch(decrementItemCount(id));
+  };
+
+  const onClickRemove = () => {
+    if (confirm('Вы уверены, что хотите удалить товар?')) {
+      dispatch(removeItem(id));
+    }
   };
 
   if (!item) {
@@ -35,9 +45,10 @@ const CartItem: FC<CartItemType> = (props) => {
           </p>
         </div>
         <div className={styles.count}>
-          <div
-            onClick={() => dispatch(decrementItemCount(id))}
+          <button
+            onClick={onClickMinus}
             className={`button button--outline button--circle ${styles.minus}`}
+            disabled={item.count === 1}
           >
             <svg
               width='10'
@@ -55,10 +66,10 @@ const CartItem: FC<CartItemType> = (props) => {
                 fill='#EB5A1E'
               />
             </svg>
-          </div>
+          </button>
           <b>{item.count}</b>
-          <div
-            onClick={incrementCount}
+          <button
+            onClick={onClickPlus}
             className={`button button--outline button--circle ${styles.plus}`}
           >
             <svg
@@ -77,13 +88,16 @@ const CartItem: FC<CartItemType> = (props) => {
                 fill='#EB5A1E'
               />
             </svg>
-          </div>
+          </button>
         </div>
         <div className={styles.price}>
           <b>{price * count} ₽</b>
         </div>
-        <div onClick={() => dispatch(removeItem(id))} className={styles.remove}>
-          <div className='button button--outline button--circle'>
+        <div className={styles.remove}>
+          <button
+            onClick={onClickRemove}
+            className='button button--outline button--circle'
+          >
             <svg
               width='10'
               height='10'
@@ -100,7 +114,7 @@ const CartItem: FC<CartItemType> = (props) => {
                 fill='#EB5A1E'
               />
             </svg>
-          </div>
+          </button>
         </div>
       </div>
     </div>
