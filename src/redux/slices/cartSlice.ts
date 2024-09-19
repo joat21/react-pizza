@@ -1,16 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CartItemType } from '../../entities/model';
+import { RootState } from '../store';
 
-const initialState = {
+interface CartState {
+  items: CartItemType[];
+  totalPrice: number;
+  totalCount: number;
+}
+
+const initialState: CartState = {
   items: [],
   totalPrice: 0,
   totalCount: 0,
 };
 
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState,
   reducers: {
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<CartItemType>) {
       const item = state.items.find((item) => item.id === action.payload.id);
 
       if (item) {
@@ -23,8 +31,12 @@ export const cartSlice = createSlice({
       state.totalCount++;
     },
 
-    removeItem(state, action) {
+    removeItem(state, action: PayloadAction<string>) {
       const item = state.items.find((item) => item.id === action.payload);
+
+      if (!item) {
+        return;
+      }
 
       state.totalCount -= item.count;
       state.totalPrice -= item.count * item.price;
@@ -32,8 +44,12 @@ export const cartSlice = createSlice({
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
 
-    decrementItemCount(state, action) {
+    decrementItemCount(state, action: PayloadAction<string>) {
       const item = state.items.find((item) => item.id === action.payload);
+
+      if (!item) {
+        return;
+      }
 
       if (item.count === 1) {
         state.items = state.items.filter((item) => item.id !== action.payload);
@@ -53,7 +69,7 @@ export const cartSlice = createSlice({
   },
 });
 
-export const selectCartItemById = (id) => (state) =>
+export const selectCartItemById = (id: string) => (state: RootState) =>
   state.cart.items.find((item) => item.id === id);
 
 export const { addItem, removeItem, decrementItemCount, clear } =
