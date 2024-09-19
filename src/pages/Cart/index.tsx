@@ -113,7 +113,7 @@ const Cart: FC = () => {
           <div className={styles.buttons}>
             <Link
               to='/'
-              className={`button button--outline button--add ${styles['go-back-btn']}`}
+              className={`button button--outline button--add button--return`}
             >
               <svg
                 width='8'

@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SHA1 } from 'crypto-js';
 import classNames from 'classnames';
@@ -11,7 +12,7 @@ import styles from './PizzaBlock.module.scss';
 const typeNames = ['тонкое', 'традиционное'];
 
 const PizzaBlock: FC<PizzaItem> = (props) => {
-  const { title, price, imageUrl, sizes, types } = props;
+  const { title, price, imageUrl, sizes, types, ingredients } = props;
   const dispatch = useDispatch();
 
   const [activeType, setActiveType] = useState(types[0]);
@@ -28,6 +29,7 @@ const PizzaBlock: FC<PizzaItem> = (props) => {
         title,
         price,
         imageUrl,
+        ingredients,
         type: typeNames[activeType],
         size: sizes[activeSize],
         count: 1,
@@ -38,7 +40,9 @@ const PizzaBlock: FC<PizzaItem> = (props) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles['pizza-block']}>
-        <img className={styles.image} src={imageUrl} alt={title} />
+        <Link to={`/pizza/${props.id}`}>
+          <img className={styles.image} src={imageUrl} alt={title} />
+        </Link>
         <div className={styles.info}>
           <h4 className={styles.title}>{title}</h4>
           <div className={styles.selector}>
@@ -69,9 +73,12 @@ const PizzaBlock: FC<PizzaItem> = (props) => {
               ))}
             </ul>
           </div>
-          <div onClick={addToCart} className={styles.bottom}>
+          <div className={styles.bottom}>
             <div className={styles.price}>от {price} ₽</div>
-            <div className='button button--outline button--add'>
+            <div
+              onClick={addToCart}
+              className='button button--outline button--add'
+            >
               <svg
                 width='12'
                 height='12'

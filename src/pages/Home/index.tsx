@@ -34,7 +34,6 @@ const Home: FC = () => {
     <Skeleton key={index} />
   ));
 
-  console.log(items);
   const pizza = items.map((item) => <PizzaBlock key={item.id} {...item} />);
 
   return (

@@ -6,6 +6,7 @@ type PizzaParams = {
 type Pizza = {
   id: string;
   title: string;
+  ingredients: string;
   price: number;
   imageUrl: string;
   rating?: number;
