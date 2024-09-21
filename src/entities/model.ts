@@ -20,6 +20,14 @@ export type CartItemType = Pizza & {
   count: number;
 };
 
+export type Meta = {
+  total_items: number;
+  total_pages: number;
+  current_page: number;
+  per_page: number;
+  remaining_count: number;
+};
+
 export enum SortBy {
   RATING_DESC = '-rating',
   PRICE_ASC = 'price',
