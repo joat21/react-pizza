@@ -1,16 +1,29 @@
-import { FC, useRef } from 'react';
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import debounce from 'lodash.debounce';
 import { selectFilter, setSearchValue } from '../../redux/slices/filterSlice';
 import styles from './Search.module.scss';
 
 const Search: FC = () => {
   const dispatch = useDispatch();
+  const [value, setValue] = useState('');
   const { searchValue } = useSelector(selectFilter);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
+    setValue('');
     dispatch(setSearchValue(''));
     inputRef.current?.focus();
+  };
+
+  const updateSearchValue = useCallback(
+    debounce((value) => dispatch(setSearchValue(value)), 300),
+    []
+  );
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
   };
 
   return (
@@ -26,8 +39,8 @@ const Search: FC = () => {
         <path d='M456.69,421.39,362.6,327.3a173.81,173.81,0,0,0,34.84-104.58C397.44,126.38,319.06,48,222.72,48S48,126.38,48,222.72s78.38,174.72,174.72,174.72A173.81,173.81,0,0,0,327.3,362.6l94.09,94.09a25,25,0,0,0,35.3-35.3ZM97.92,222.72a124.8,124.8,0,1,1,124.8,124.8A124.95,124.95,0,0,1,97.92,222.72Z' />
       </svg>
       <input
-        value={searchValue}
-        onChange={(e) => dispatch(setSearchValue(e.target.value))}
+        value={value}
+        onChange={onChange}
         ref={inputRef}
         type='text'
         placeholder='Найти пиццу'
